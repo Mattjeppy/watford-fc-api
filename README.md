@@ -14,6 +14,9 @@
 ```bash
 $ npm install
 ```
+```bash
+$ nest g module -module name-
+```
 
 ## Compile and run the project
 

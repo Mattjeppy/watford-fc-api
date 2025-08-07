@@ -14,6 +14,7 @@
 ```bash
 $ npm install
 ```
+# generate module
 ```bash
 $ nest g module -module name-
 ```
@@ -24,7 +25,7 @@ $ nest g module -module name-
 # development
 $ npm run start
 
-# watch mode
+# watch / dev mode - recompiles code
 $ npm run start:dev
 
 # production mode

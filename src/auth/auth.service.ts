@@ -4,8 +4,9 @@ import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly prismaService: PrismaService) {}
   async signup(authDto: AuthDto) {
-    const user = await PrismaService.user.create({
+    const user = await this.prismaService.user.create({
       data: {
         email: authDto.email,
         password: authDto.password,

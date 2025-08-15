@@ -12,6 +12,6 @@ export class AuthService {
         password: authDto.password,
       },
     });
-    return { message: 'User signed up successfully', user };
+    return { message: 'User signed up successfully', user: user.email };
   }
 }

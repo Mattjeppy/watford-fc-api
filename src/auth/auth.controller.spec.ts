@@ -9,7 +9,7 @@ import { PrismaService } from '../prisma/prisma.service';
 describe('AuthController', () => {
   let app: INestApplication;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const users: any[] = [];
     const prismaMock = {
   user: {
@@ -74,6 +74,14 @@ describe('AuthController', () => {
     .post('/auth/signup')
     .send(dto)
     .expect(500, /Internal server error/);
+  });
+  it('should complete a successful sign-up', async () => {
+    const dto = { email: 'test@email.com', password: 'StrongPassword1!' }
+    const result = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(dto)
+      .expect(201);
+    expect(result.body).toEqual({ message: 'User signed up successfully', user: dto.email });
   });
 
   afterAll(async () => {

@@ -8,7 +8,7 @@ describe('AuthController (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -18,8 +18,11 @@ describe('AuthController (e2e)', () => {
     await app.init();
 
     prisma = moduleRef.get<PrismaService>(PrismaService);
-    await prisma.user.deleteMany(); // Clear test DB before each test
   });
+  
+  beforeEach(async () => {
+    await prisma.user.deleteMany();
+  })
 
   afterAll(async () => {
     await app?.close();
@@ -59,7 +62,7 @@ describe('AuthController (e2e)', () => {
     await request(app.getHttpServer())
       .post('/auth/signup')
       .send(dto)
-      .expect(500, /Internal server error/);
+      .expect(500, /Internal server error/); // or custom error if you're handling P2002
   });
 
   it('should complete a successful sign-up', async () => {

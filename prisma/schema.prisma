@@ -14,3 +14,31 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Squad {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  position  String
+  squadNumber Int
+  nationality String
+  dateOfBirth DateTime
+  joinedDate DateTime
+  appearances Int
+  goals      Int
+  assists    Int
+  startYear   Int      // first season at Watford
+  endYear     Int?     // last season at Watford (nullable if still playing)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Manager {
+  id          Int      @id @default(autoincrement())
+  name        String
+  nationality String
+  dateOfBirth DateTime
+  startYear   Int      // first season managing Watford in this spell
+  endYear     Int?     // last season (nullable if current)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

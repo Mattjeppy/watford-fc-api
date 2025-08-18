@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { SquadService } from './squad.service';
 import { JwtAuthGuard } from '../auth/gaurds/jwt-auth.guard'; // optional
 
@@ -8,7 +8,8 @@ export class SquadController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getAll() {
-    return this.squadService.getAllPlayers();
+  async getPlayers(@Query() query: Record<string, string>) {
+    // pass all query params to service
+    return this.squadService.getPlayers(query);
   }
 }

@@ -4,6 +4,7 @@ import request from 'supertest';
 import { AppModule } from '../app.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { userToken } from '../../test/utils/utils';
+import { populateSquad } from '../../test/utils/seedHelpers/squad';
 
 describe('SquadController (e2e)', () => {
   let app: INestApplication;
@@ -21,26 +22,33 @@ describe('SquadController (e2e)', () => {
 
     prisma = moduleRef.get<PrismaService>(PrismaService);
     token = await userToken(app);
+
+    await populateSquad(prisma);
   });
 
-  beforeEach(async () => {
-    await prisma.user.deleteMany();
-  })
-
   afterAll(async () => {
-    await app?.close();
+    await app.close();
   });
 
   describe('GET /squad', () => {
-    it.only('should be rejected access without jwt', async () => {
+    it('should be rejected without jwt', async () => {
       await request(app.getHttpServer()).get('/squad').expect(401);
     });
-    it.only('should be rejected access without jwt', async () => {
-      console.debug(token);
-      await request(app.getHttpServer())
+
+    it('should grab full squad list', async () => {
+      const result = await request(app.getHttpServer())
         .get('/squad')
         .set('Authorization', `Bearer ${token}`)
-        .expect(401);
+        .expect(200);
+    });
+
+    it('should be able to filter through the squad list', async () => {
+      const result = await request(app.getHttpServer())
+        .get('/squad')
+        .query({ position: 'Forward', nationality: 'Australia' })
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200);
+      expect(result.body[0].name).toBe('Nesteroy Irankunda');
     });
   });
 

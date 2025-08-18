@@ -21,7 +21,7 @@ describe('AuthController (e2e)', () => {
     prisma = moduleRef.get<PrismaService>(PrismaService);
   });
 
-  beforeEach(async () => {
+  afterEach(async () => {
     await prisma.user.deleteMany();
   })
 
@@ -67,7 +67,8 @@ describe('AuthController (e2e)', () => {
         .expect(500, /Internal server error/); // or custom error if you're handling P2002
     });
 
-    it('should complete a successful sign-up', async () => {
+    it.only('should complete a successful sign-up', async () => {
+
       const dto = { email: 'test@email.com', password: 'StrongPassword1!' };
 
       const result = await request(app.getHttpServer())

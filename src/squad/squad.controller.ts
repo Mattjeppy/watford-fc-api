@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/gaurds/jwt-auth.guard'; // optional
 
 @Controller('squad')
 export class SquadController {
-  constructor(private squadService: SquadService) {}
+  constructor(private readonly squadService: SquadService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()

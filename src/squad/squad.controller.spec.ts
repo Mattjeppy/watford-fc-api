@@ -3,11 +3,12 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../app.module';
 import { PrismaService } from '../prisma/prisma.service';
-import { userToken } from 'test/utils';
+import { userToken } from '../../test/utils/utils';
 
 describe('SquadController (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
+  let token: string;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -19,8 +20,7 @@ describe('SquadController (e2e)', () => {
     await app.init();
 
     prisma = moduleRef.get<PrismaService>(PrismaService);
-
-    const token = await userToken(app);
+    token = await userToken(app);
   });
 
   beforeEach(async () => {
@@ -30,6 +30,18 @@ describe('SquadController (e2e)', () => {
   afterAll(async () => {
     await app?.close();
   });
-  
+
+  describe('GET /squad', () => {
+    it.only('should be rejected access without jwt', async () => {
+      await request(app.getHttpServer()).get('/squad').expect(401);
+    });
+    it.only('should be rejected access without jwt', async () => {
+      console.debug(token);
+      await request(app.getHttpServer())
+        .get('/squad')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(401);
+    });
+  });
 
 });

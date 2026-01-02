@@ -10,6 +10,6 @@ export class SquadController {
   @Get()
   async getPlayers(@Query() query: Record<string, string>) {
     // pass all query params to service
-    return this.squadService.getPlayers(query);
+    return this.squadService.getPlayersFromDb(query);
   }
 }

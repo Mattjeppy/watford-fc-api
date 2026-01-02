@@ -1,11 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import axios from 'axios';
 
 @Injectable()
 export class SquadService {
-  constructor(private prisma: PrismaService) {}
+  private apiKey: string;
+  private apiClient: any;
 
-  async getPlayers(filters: Record<string, string>) {
+  constructor(private prisma: PrismaService) {
+    this.apiKey = process.env.API_KEY ?? '';
+    this.apiClient = axios.create({
+      baseURL: 'https://api.football-data.or/v2',
+      headers: {
+        'X-Auth-Token': this.apiKey,
+      },
+    });
+  }
+
+  async getPlayersFromDb(filters: Record<string, string>) {
+  // logic here would be to fetch players if database is not empty
   const where: any = {};
   for (const key in filters) {
     if (filters[key]) {
@@ -17,5 +30,15 @@ export class SquadService {
     }
   }
   return this.prisma.squad.findMany({ where });
-}
+  }
+
+  async getPlayersFromApi() {
+    console.debug('insert logic here for contacting the api')
+  }
+
+  // get table standings
+  // http://api.football-data.org/v4/competitions/ELC/standings
+
+  // Watford id is 346
+
 }

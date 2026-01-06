@@ -52,4 +52,12 @@ describe('SquadController (e2e)', () => {
     });
   });
 
+  describe.skip('GET /squad/api', () => {
+    it('should do something', async () => {
+      const result = await request(app.getHttpServer())
+        .get('/squad/api')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200);
+    });
+  })
 });

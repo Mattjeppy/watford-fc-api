@@ -26,10 +26,10 @@ $ npm install
 ## Compile and run the project
 
 ```bash
-# development
+# start project
 $ npm run start
 
-# watch mode
+# watch mode - best for development
 $ npm run start:dev
 
 # production mode
@@ -47,6 +47,11 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+# view test coverage in browser
+set this in aliases: alias coverage="open coverage/lcov-report/index.html"
+
+$ coverage
 ```
 
 ## Resources

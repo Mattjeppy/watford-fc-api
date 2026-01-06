@@ -10,7 +10,7 @@ export class SquadService {
   constructor(private prisma: PrismaService) {
     this.apiKey = process.env.API_KEY ?? '';
     this.apiClient = axios.create({
-      baseURL: 'https://api.football-data.or/v2',
+      baseURL: 'https://api.football-data.org/v4',
       headers: {
         'X-Auth-Token': this.apiKey,
       },
@@ -33,7 +33,11 @@ export class SquadService {
   }
 
   async getPlayersFromApi() {
-    console.debug('insert logic here for contacting the api')
+    // improvement - get team id from http://api.football-data.org/v4/competitions/ELC/standings
+    const url = '/teams/346';
+    const response = await this.apiClient.get(url);
+    // https://api.football-data.org/v4/teams/346
+    console.debug('results:', response)
   }
 
   // get table standings
@@ -41,4 +45,7 @@ export class SquadService {
 
   // Watford id is 346
 
+  // make a championship folder for:
+  // table
+  // next match against?
 }

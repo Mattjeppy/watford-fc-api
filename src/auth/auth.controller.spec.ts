@@ -67,7 +67,7 @@ describe('AuthController (e2e)', () => {
         .expect(500, /Internal server error/); // or custom error if you're handling P2002
     });
 
-    it.only('should complete a successful sign-up', async () => {
+    it('should complete a successful sign-up', async () => {
 
       const dto = { email: 'test@email.com', password: 'StrongPassword1!' };
 
